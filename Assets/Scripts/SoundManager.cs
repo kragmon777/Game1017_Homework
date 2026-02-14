@@ -1,57 +1,44 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
-    private void Awake()
+    public void ChangeMusicVolume(float newVolume)
     {
-        // Checking if we have instance before
-        if (Instance !=null && Instance !=this)
+        if (musicSource == null) return;
+
+        musicSource.volume = newVolume;
+
+        if (newVolume <= 0.0001f)
         {
-            Destroy(gameObject); // if yes -  destroy this
-            return;
+            if (musicSource.isPlaying)
+            musicSource.Pause();
         }
-
-        Instance = this;  // if no attach this one
-        DontDestroyOnLoad(gameObject);
-    }
-    // Method for setting volume for music source
-    public void SetMusicVolume(float value)
-{
-    musicSource.volume = value;
-
-    // Checking if SoundManager got a value from slider and playing Music Source
-    if (value > 0f)
-    {   
-        if (!musicSource.isPlaying)
+        else
+        {
+            if (!musicSource.isPlaying)
             musicSource.Play();
+        }
     }
-    else
-    {
-        if (musicSource.isPlaying)
-            musicSource.Stop();
-    }
-}
 
-
-    // Method for setting volume for SFX source
-    public void SetSfxVolume(float value)
+    public void ChangeSFXVolume(float newVolume)
     {
-        sfxSource.volume = value;
+        if (sfxSource == null) return;
 
-    // Checking if SoundManager got a value from slider and playing SFX source
-        if (value > 0f)
-    {
-        if (!sfxSource.isPlaying)
+        sfxSource.volume = newVolume;
+
+        if (newVolume <= 0.0001f)
+        {
+            if (sfxSource.isPlaying)
+            sfxSource.Pause();
+        }
+        else
+        {
+            if (!sfxSource.isPlaying)
             sfxSource.Play();
-    }
-    else
-    {
-        if (sfxSource.isPlaying)
-            sfxSource.Stop();
-    }
+        }
     }
 }
