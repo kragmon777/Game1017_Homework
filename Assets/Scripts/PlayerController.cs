@@ -6,9 +6,10 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 startPosition;
 
-    private void Start()
+    public void Initialize()
     {
         startPosition = transform.position;
+        // Turn on gravity
     }
 
     private void Update()
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(distancePerFrame, 0f, 0f);
     }
 
-    public void ResetPlayer()
+    public void Reset()
     {
         transform.position = startPosition;
     }

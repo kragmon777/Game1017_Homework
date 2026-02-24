@@ -12,8 +12,11 @@ public enum GameState
     {
     public static GameManager Instance;
     public GameState CurrentGameState{get; private set;}
-    
-    //[SerializeField] private SoundManager soundManager;
+
+    public SegmentSpawner segmentSpawner;
+    public PlayerController player;
+    private bool hasInitialized = false;
+
     private SoundManager soundManager;
     public SoundManager SoundManager
     {
@@ -40,7 +43,7 @@ public enum GameState
             return; 
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -51,6 +54,9 @@ public enum GameState
     public void PlayGame()
     {
         SetGameState(GameState.InGame);
+       
+        segmentSpawner.Initialize();
+        player.Initialize();
     }
 
     public void GameOver()
@@ -62,7 +68,8 @@ public enum GameState
     [ContextMenu("Restart Game")]
     public void RestartGame()
     {
-        FindFirstObjectByType<PlayerController>().ResetPlayer();
+        player.Reset();
+        segmentSpawner.Reset();
         SetGameState(GameState.InMenu);
     }
 
