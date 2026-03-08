@@ -3,7 +3,7 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class RestartButton : MonoBehaviour
+public class TitleScreenButton : MonoBehaviour
 {
     private void OnEnable() 
     {
@@ -17,6 +17,6 @@ public class RestartButton : MonoBehaviour
 
     private void RestartGame()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("StartScene");
     }
 }

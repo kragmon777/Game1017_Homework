@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public enum GameManagerAction
     {
         PlayGame,
+        StartGame,
         GameOver,
         RestartGame
     }
@@ -29,6 +30,10 @@ public class GameManagerButton : MonoBehaviour
         {
             case GameManagerAction.PlayGame:
             GameManager.Instance.PlayGame();
+            break;
+            
+            case GameManagerAction.StartGame:
+            GameManager.Instance.StartGame();
             break;
 
             case GameManagerAction.GameOver:

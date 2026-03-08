@@ -28,7 +28,10 @@ public class BackgroundManager : MonoBehaviour
             ReturnToPool(go);
             backgrounds.Add(go);
         }
+    }
 
+    public void Initialize()
+    {
 
         lastBackground = GetNextObject().transform;
         lastRenderer = lastBackground.GetComponent<Renderer>();
@@ -59,6 +62,8 @@ public class BackgroundManager : MonoBehaviour
 
     private void Update()
     {
+        if (lastBackground == null) return;
+
         float halfCamWidth = cam.orthographicSize * cam.aspect;
         float camRightEdge = cam.transform.position.x + halfCamWidth;
 
@@ -106,4 +111,12 @@ public class BackgroundManager : MonoBehaviour
         nextSpawnAtCamRightX = lastRenderer.bounds.max.x - xBuffer;
     }
 
+    public void Reset()
+    {
+        foreach(GameObject background in backgrounds)
+        {
+            background.transform.position = Vector3.zero;
+            ReturnToPool(background);
+        }
+    }
 }

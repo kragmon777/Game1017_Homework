@@ -8,15 +8,16 @@ public class SegmentSpawner : MonoBehaviour
    [SerializeField] private int segmentsListSize = 5;
 
     private Renderer lastRenderer, currentRenderer;
-
     private GameObject lastGameObject, currentGameObject;
+
     private List<GameObject> segments = new();
+
     private float gapSize = 0.5f;
     private GameObject player;
 
     public void Initialize()
     {   
-        player = GameManager.Instance.player.gameObject;
+        player = GameManager.Instance.Player.gameObject;
 
         // Segment 1
         lastGameObject = Instantiate(segmentPrefab, new Vector3(player.transform.position.x, player.transform.position.y - 1, 0), Quaternion.identity, transform);

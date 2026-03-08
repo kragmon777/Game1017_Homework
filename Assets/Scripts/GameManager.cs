@@ -13,10 +13,6 @@ public enum GameState
     public static GameManager Instance;
     public GameState CurrentGameState{get; private set;}
 
-    public SegmentSpawner segmentSpawner;
-    public PlayerController player;
-    private bool hasInitialized = false;
-
     private SoundManager soundManager;
     public SoundManager SoundManager
     {
@@ -33,7 +29,72 @@ public enum GameState
             soundManager = value;
         }
     }
+    private SegmentSpawner segmentSpawner;
+    public SegmentSpawner SegmentSpawner
+    {
+        get
+        {
+            if (segmentSpawner == null)
+            {
+                segmentSpawner = FindFirstObjectByType<SegmentSpawner>();
+            }
+            return segmentSpawner;
+        }
+        private set
+        {
+            segmentSpawner = value;
+        }
+    }
 
+    private PlayerController player;
+    public PlayerController Player
+    {
+        get
+        {
+            if (player == null)
+            {
+                player = FindFirstObjectByType<PlayerController>();
+            }
+            return player;
+        }
+        private set
+        {
+            player = value;
+        }
+    }
+
+    private UIManager uiManager;
+    public UIManager UIManager
+    {
+        get
+        {
+            if (uiManager == null)
+            {
+                uiManager = FindFirstObjectByType<UIManager>();
+            }
+            return uiManager;
+        }
+        private set
+        {
+            uiManager = value;
+        }
+    }
+    private BackgroundManager backgroundManager;
+    public BackgroundManager BackgroundManager
+    {
+        get
+        {
+            if (backgroundManager == null)
+            {
+                backgroundManager = FindFirstObjectByType<BackgroundManager>();
+            }
+            return backgroundManager;
+        }
+        private set
+        {
+            backgroundManager = value;
+        }
+    }
 
     private void Awake()
     {
@@ -43,8 +104,9 @@ public enum GameState
             return; 
         }
         Instance = this;
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
+   
 
     private void Start()
     {
@@ -53,10 +115,17 @@ public enum GameState
     
     public void PlayGame()
     {
+        SceneManager.LoadScene("GameScene");
+        CurrentGameState = GameState.InMenu;
+    }
+
+    public void StartGame()
+    {
         SetGameState(GameState.InGame);
-       
-        segmentSpawner.Initialize();
-        player.Initialize();
+        SegmentSpawner.Initialize();
+        Player.Initialize();
+        UIManager.OnPlayPressed();
+        BackgroundManager.Initialize();
     }
 
     public void GameOver()
@@ -68,9 +137,11 @@ public enum GameState
     [ContextMenu("Restart Game")]
     public void RestartGame()
     {
-        player.Reset();
-        segmentSpawner.Reset();
+        Player.Reset();
+        SegmentSpawner.Reset();
         SetGameState(GameState.InMenu);
+        UIManager.OnResetPressed();
+        BackgroundManager.Reset();
     }
 
     void SetGameState(GameState state)
