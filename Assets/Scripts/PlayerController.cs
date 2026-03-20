@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed = 5.0f;
+    [SerializeField] public float speed = 5.0f;
     [SerializeField] private float jumpForce = 8.0f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 0.1f;
+
+    [Tooltip("This represents the lowest position the player can go in the axis before dying.")]
+    [SerializeField] private float lowerYLimit;
 
     private Vector3 startPosition;
     private Rigidbody2D rb;
@@ -26,6 +29,11 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.CurrentGameState != GameState.InGame) return;
         CheckGrounded();
+
+        if (transform.position.y < lowerYLimit)
+        {
+            GameManager.Instance.GameOver();
+        }
     }   
 
     private void FixedUpdate()
@@ -72,4 +80,16 @@ public class PlayerController : MonoBehaviour
         jumpPressed = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        /*if (collision.CompareTag("Obstacle"))
+        {
+            GameManager.Instance.GameOver();
+        }*/
+
+        if (collision.GetComponent<Obstacle>())
+        {
+            GameManager.Instance.GameOver();
+        }
+    }
 }

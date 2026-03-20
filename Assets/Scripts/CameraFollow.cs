@@ -13,7 +13,7 @@ public class CameraFollow : MonoBehaviour
         fixedY = transform.position.y;
         fixedZ = transform.position.z;
 
-        xOffset = transform.position.x;
+        xOffset = transform.position.x - player.transform.position.x; 
 
         if (player == null)
         {

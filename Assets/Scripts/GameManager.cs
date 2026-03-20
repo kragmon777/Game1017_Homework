@@ -96,6 +96,23 @@ public enum GameState
         }
     }
 
+    private SaveSystem saveSystem;
+    public SaveSystem SaveSystem
+    {
+        get
+        {
+            if (saveSystem == null)
+            {
+                saveSystem = FindFirstObjectByType<SaveSystem>();
+            }
+            return saveSystem;
+        }
+        private set
+        {
+            saveSystem = value;
+        }
+    }
+
     private void Awake()
     {
         if (Instance !=null)
@@ -131,6 +148,8 @@ public enum GameState
     public void GameOver()
     {
         SetGameState(GameState.GameOver);
+
+       // SaveSystem.SaveScore();
         SceneManager.LoadScene("GameOverScene");
     }
 
