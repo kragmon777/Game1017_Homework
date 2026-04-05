@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SegmentObstacleLeft Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7464495589629176049, guid: 5e6272657a91f4933a655a86f0043d33, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: ac3d1bad565ed43628c1b5701b7b6a77, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

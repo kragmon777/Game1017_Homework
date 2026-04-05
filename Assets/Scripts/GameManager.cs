@@ -13,6 +13,7 @@ public enum GameState
     public static GameManager Instance;
     public GameState CurrentGameState{get; private set;}
 
+    public Leaderboard Leaderboard => FindFirstObjectByType<Leaderboard>();
     private SoundManager soundManager;
     public SoundManager SoundManager
     {
@@ -96,6 +97,23 @@ public enum GameState
         }
     }
 
+    private Timer timer;
+    public Timer Timer
+    {
+        get
+        {
+            if (timer == null)
+            {
+                timer = FindFirstObjectByType<Timer>();
+            }
+            return timer;
+        }
+        private set
+        {
+            timer = value;
+        }
+    }
+
     private SaveSystem saveSystem;
     public SaveSystem SaveSystem
     {
@@ -123,7 +141,29 @@ public enum GameState
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-   
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene == SceneManager.GetSceneByBuildIndex(1))
+        {
+            GameSceneStart();
+        }
+
+        if (scene == SceneManager.GetSceneByBuildIndex(2))
+        {
+            GameOverSceneStart();
+        }
+    }
 
     private void Start()
     {
@@ -143,14 +183,25 @@ public enum GameState
         Player.Initialize();
         UIManager.OnPlayPressed();
         BackgroundManager.Initialize();
+        Timer.Initialize();
     }
 
     public void GameOver()
     {
         SetGameState(GameState.GameOver);
 
-       // SaveSystem.SaveScore();
+        SaveSystem.SaveTimer(Timer.GetCurrentBestTime());
         SceneManager.LoadScene("GameOverScene");
+    }
+
+    private void GameSceneStart()
+    {
+        UIManager.Initialize();
+    }
+
+    public void GameOverSceneStart()
+    {
+        Leaderboard.Initialize(SaveSystem.GetScores());
     }
 
     [ContextMenu("Restart Game")]
@@ -161,6 +212,7 @@ public enum GameState
         SetGameState(GameState.InMenu);
         UIManager.OnResetPressed();
         BackgroundManager.Reset();
+        Timer.Reset();
     }
 
     void SetGameState(GameState state)

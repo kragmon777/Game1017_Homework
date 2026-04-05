@@ -4,30 +4,14 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject playButton, resetButton, gameOverButton;
-    [SerializeField] private TMP_Text timerText;
-
-    private float timer = 0f;
-    private void Start()
-    {
-        Initialize();
-    }
-    
-    private void Update()
-    {   // Timer for running
-        if (GameManager.Instance == null) return;
-
-        if (GameManager.Instance.CurrentGameState == GameState.InGame)
-        {
-            timer += Time.deltaTime;
-            UpdateTimerText();
-        }
-    }
+    [SerializeField] private GameObject timerUI;
 
     public void Initialize()
     {
         playButton.SetActive(true);
         resetButton.SetActive(false);
         gameOverButton.SetActive(false);
+        timerUI.SetActive(false);
     }
 
     public void OnPlayPressed()
@@ -35,7 +19,7 @@ public class UIManager : MonoBehaviour
         playButton.SetActive(false);
         resetButton.SetActive(true);
         gameOverButton.SetActive(true);
-        ResetTimer();
+        timerUI.SetActive(true);
     }
 
     public void OnResetPressed()
@@ -43,18 +27,4 @@ public class UIManager : MonoBehaviour
         Initialize();
     }
 
-    public void ResetTimer()
-    {
-        timer = 0f;
-        UpdateTimerText();
-    }
-
-    // updating the text
-    private void UpdateTimerText()
-    {
-        int minutes = Mathf.FloorToInt(timer / 60f); // counting minutes
-        int seconds = Mathf.FloorToInt(timer % 60f); // counting seconds
-
-        timerText.text = $"{minutes:00}:{seconds:00}";
-    }
 }

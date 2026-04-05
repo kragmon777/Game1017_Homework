@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private float maxSpeed = 5.0f;
     [SerializeField] public float speed = 5.0f;
     [SerializeField] private float jumpForce = 8.0f;
     [SerializeField] private LayerMask groundLayer;
@@ -39,9 +40,15 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (GameManager.Instance.CurrentGameState != GameState.InGame) return;
-        Vector2 velocity = rb.linearVelocity;
+
+        if (rb.linearVelocity.x <= maxSpeed)
+        {
+            rb.AddForceX(speed);
+        }
+
+       /* Vector2 velocity = rb.linearVelocity;
         velocity.x = speed;
-        rb.linearVelocity = velocity;
+        rb.linearVelocity = velocity;*/
 
         if (jumpPressed && isGrounded)
         {
