@@ -41,14 +41,10 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.CurrentGameState != GameState.InGame) return;
 
-        if (rb.linearVelocity.x <= maxSpeed)
+        if (rb.linearVelocity.x <= speed)
         {
             rb.AddForceX(speed);
         }
-
-       /* Vector2 velocity = rb.linearVelocity;
-        velocity.x = speed;
-        rb.linearVelocity = velocity;*/
 
         if (jumpPressed && isGrounded)
         {
@@ -89,10 +85,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        /*if (collision.CompareTag("Obstacle"))
-        {
-            GameManager.Instance.GameOver();
-        }*/
 
         if (collision.GetComponent<Obstacle>())
         {

@@ -5,7 +5,7 @@ public class SaveSystem : MonoBehaviour
 {
     private const string LeaderboardKey = "LeaderboardScore";
     private const string LeaderboardCountKey = "LeaderboardCount";
-    private const int MaxHighScores = 5;
+    private const int MaxHighScores = 3;
     private List<float> leaderboard = new List<float>();
 
     // Added

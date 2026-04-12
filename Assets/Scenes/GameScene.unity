@@ -275,6 +275,14 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 588884903274829508, guid: 52dd1eb5f847144eb9468c42bdab9003, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 588884903274829508, guid: 52dd1eb5f847144eb9468c42bdab9003, type: 3}
+      propertyPath: jumpForce
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 588884903274829508, guid: 52dd1eb5f847144eb9468c42bdab9003, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}
